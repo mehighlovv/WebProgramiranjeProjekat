@@ -86,6 +86,6 @@ public class Room implements Serializable {
 		this.cinema = cinema;
 	}
 
-	
+	public Room() {}
 	
 }

@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+
 @Entity
 public class Viewer extends User {
 	@OneToMany(mappedBy="viewer",fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
@@ -45,5 +46,6 @@ public class Viewer extends User {
 		this.watched_movies = watched_movies;
 		this.reserved_tickets = reserved_tickets;
 	}
-	
+	public Viewer()
+	{}
 }

@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import project.cinema.dto.CinemaDTO;
+
 
 
 @Entity
@@ -21,16 +23,16 @@ public class Cinema implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 	
-	@Column
+	@Column(nullable=false)
 	private String name;
 	
-	@Column 
+	@Column(nullable=false)
 	private String address;
 	
-	@Column
+	@Column(nullable=false)
 	private String phone_number;
 	
-	@Column
+	@Column(nullable=false)
 	private String email;
 	
 	@OneToMany(mappedBy="cinema",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
@@ -118,6 +120,16 @@ public class Cinema implements Serializable {
 		this.rooms = rooms;
 		this.schedule = schedule;
 	}
-	
-	
+
+	public Cinema() {
+		
+	}
+	public static Cinema getCinemaByDTO(CinemaDTO cinemaDTO) {
+		Cinema cinema=new Cinema();
+		cinema.setAddress(cinemaDTO.getAddress());
+		cinema.setEmail(cinemaDTO.getEmail());
+		cinema.setName(cinemaDTO.getName());
+		cinema.setPhone_number(cinemaDTO.getPhone_number());
+		return cinema;
+	}
 }

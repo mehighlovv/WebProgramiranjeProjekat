@@ -19,7 +19,7 @@ public class User implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 	
-	@Column(nullable=false)
+	@Column(nullable=false,unique=true)
 	private String username;
 	
 	@Column(nullable=false)
@@ -34,7 +34,7 @@ public class User implements Serializable{
 	@Column
 	private String phone_number;
 	
-	@Column(nullable=false)
+	@Column(nullable=false,unique=true)
 	private String email;
 	
 	@Column
@@ -154,8 +154,9 @@ public class User implements Serializable{
 		this.activity = activity;
 		this.cinema = cinema;
 	}
-
+	public User()
+	{}
 	
 
 }
-enum Roles{VIEWER,ADMIN,MANAGER};
+enum Roles{VIEWER,MANAGER,ADMIN};

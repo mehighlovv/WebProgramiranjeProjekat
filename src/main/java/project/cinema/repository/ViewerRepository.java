@@ -1,5 +1,10 @@
 package project.cinema.repository;
 
-public interface ViewerRepository extends UserRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import project.cinema.model.Viewer;
+
+public interface ViewerRepository extends JpaRepository<Viewer,Long> {
+	
 
 }

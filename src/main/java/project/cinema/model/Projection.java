@@ -105,7 +105,7 @@ public class Projection implements Serializable {
 		this.cinema = cinema;
 		this.viewers = viewers;
 	}
-	
+	public Projection() {}
 	
 }
 enum weekDays{MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY,SUNDAY};

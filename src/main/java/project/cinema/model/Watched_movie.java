@@ -65,6 +65,8 @@ public class Watched_movie implements Serializable {
 		this.movie = movie;
 		this.rating = rating;
 	}
+	public Watched_movie()
+	{}
 	
 	
 }

@@ -25,7 +25,7 @@ public class Movie implements Serializable {
 	
 	@Column
 	private String description;
-	
+		
 	@Column(nullable=false)
 	private String genre;
 	
@@ -115,6 +115,8 @@ public class Movie implements Serializable {
 		this.rating = rating;
 	}
 	
-	
+	public Movie() {
+		rating=0;
+	}
 	
 }

@@ -58,9 +58,10 @@ public class ProjectionService {
 		projection.setPrice(projectionDTO.getPrice());
 		projection.setTime(projectionDTO.getTime());
 		projection.setViewers(null);
-		this.projectionRepository.save(projection);
+		
 		cinema.getSchedule().add(projection);
 		room.getProjections().add(projection);
+		this.projectionRepository.save(projection);
 		
 	}
 }

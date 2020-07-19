@@ -2,6 +2,8 @@ package project.cinema.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,7 @@ import project.cinema.model.Projection;
 import project.cinema.model.Room;
 import project.cinema.model.User;
 import project.cinema.repository.CinemaRepository;
-
+@Transactional
 @Service
 public class CinemaService {
 
@@ -60,5 +62,8 @@ public class CinemaService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	public void editCinema(Cinema cinema) {
+		this.cinemaRepository.updateCinema(cinema.getId(),cinema.getName(),cinema.getAddress(),cinema.getPhone_number(),cinema.getEmail());
 	}
 }

@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
         <script th:inline="javascript">
-	    var user = /*[[${user}]]*/;
+	    var managers = /*[[${managers}]]*/;
+        var user = /*[[${user}]]*/;
 	    </script>
         <script src="/js/login.js" type="text/javascript"></script>
         <script src="/js/auth.js" type="text/javascript"></script>
         <script src="/js/admin.js" type="text/javascript"></script>
-        <script src="/js/room.js" type="text/javascript"></script>
         <title></title>
         <script src="https://kit.fontawesome.com/705b70177f.js" crossorigin="anonymous"></script>
         
@@ -97,25 +97,6 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center viewer">    
-            <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
-              <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
-                    </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                  <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                      <a class="nav-link" onclick="watched_movies()">Watched Movies</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" onclick="reservations()">Reservations</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </nav>    
-        </div>
         <div class="row justify-content-center admin">    
             <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
               <div class="container">
@@ -124,7 +105,7 @@
                     </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                   <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
+                    <li class="nav-item active">
                       <a class="nav-link" onclick="managers()">Managers</a>
                     </li>
                     <li class="nav-item">
@@ -135,26 +116,34 @@
               </div>
             </nav>    
         </div>
-        <div class="row justify-content-center manager">    
-            <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
-              <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
-                    </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                  <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                      <a class="nav-link" onclick="cinema()">Cinemas</a>
-                    </li>
-                    <li class="nav-item ">
-                      <a class="nav-link" onclick="schedule()">Make schedule</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </nav>    
+        <div class="row justify-content-center admin">
+            <div class="col-sm-6">
+                <table id="managers" class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Lastname</th>
+                            <th>E-mail</th>
+                            <th>Phone number</th>
+                            <th>Date of creation</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <tr th:each="manager : ${managers}" th:id="${manager.id}">
+                            <td th:text="${manager.name}"></td>
+                            <td th:text="${manager.lastname}"></td>
+                             <td th:text="${manager.email}"></td>
+                             <td th:text="${manager.phone_number}"></td>
+                             <td th:text="${manager.date}"></td>
+                            <td>
+                                <button type="button" th:onclick="'deleteManager('+${manager.id}+')'" class="btn btn-outline-secondary">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-
         </main>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">

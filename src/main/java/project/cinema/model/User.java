@@ -1,6 +1,8 @@
 package project.cinema.model;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,15 +11,21 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class User implements Serializable{
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 	
 	@Column(nullable=false,unique=true)
 	private String username;
@@ -46,12 +54,36 @@ public class User implements Serializable{
 	@Column
 	private boolean activity;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="user",fetch=FetchType.EAGER,orphanRemoval=true)
+	Set<Watched_movie> watched_movies=new HashSet<>();
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "RESERVATIONS",
+    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "projection_id", referencedColumnName = "id"))
+	Set<Projection> reserved_tickets=new HashSet<>();
+	
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Cinema cinema;
+	
 	public Long getId() {
 		return id;
 	}
+	public Set<Watched_movie> getWatched_movies() {
+		return watched_movies;
+	}
 
+	public void setWatched_movies(Set<Watched_movie> watched_movies) {
+		this.watched_movies = watched_movies;
+	}
+
+	public Set<Projection> getReserved_tickets() {
+		return reserved_tickets;
+	}
+
+	public void setReserved_tickets(Set<Projection> reserved_tickets) {
+		this.reserved_tickets = reserved_tickets;
+	}
 	public Cinema getCinema() {
 		return cinema;
 	}
@@ -140,9 +172,8 @@ public class User implements Serializable{
 		this.activity = activity;
 	}
 
-	public User(long id, String username, String password, String name, String lastname, String phone_number,
-			String email, Date date, Roles role, boolean activity, Cinema cinema) {
-		this.id = id;
+	public User(String username, String password, String name, String lastname, String phone_number,
+			String email, Date date, Roles role, boolean activity, Cinema cinema,Set<Watched_movie> watched_movies, Set<Projection> reserved_tickets) {
 		this.username = username;
 		this.password = password;
 		this.name = name;
@@ -153,10 +184,11 @@ public class User implements Serializable{
 		this.role = role;
 		this.activity = activity;
 		this.cinema = cinema;
+		this.watched_movies = watched_movies;
+		this.reserved_tickets = reserved_tickets;
 	}
 	public User()
 	{}
 	
 
 }
-enum Roles{VIEWER,MANAGER,ADMIN};

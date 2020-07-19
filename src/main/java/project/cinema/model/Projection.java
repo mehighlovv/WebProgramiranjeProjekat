@@ -1,6 +1,7 @@
 package project.cinema.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,29 +15,39 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Projection implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@Column
-	private weekDays day;
+	private Date day;
 	
 	@Column
-	private long price;
+	private String time;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Column
+	private Long price;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Movie movie;
 	
-	@ManyToMany(mappedBy="projections")
+	@ManyToMany(mappedBy="projections",cascade=CascadeType.ALL)
 	private Set<Room> rooms=new HashSet<>();
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Cinema cinema;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy="reserved_tickets")
-	private Set<Viewer> viewers=new HashSet<>();
+	private Set<User> users=new HashSet<>();
 
 	public Cinema getCinema() {
 		return cinema;
@@ -46,35 +57,42 @@ public class Projection implements Serializable {
 		this.cinema = cinema;
 	}
 
-	public Set<Viewer> getViewers() {
-		return viewers;
+	public Set<User> getUsers() {
+		return users;
 	}
 
-	public void setViewers(Set<Viewer> viewers) {
-		this.viewers = viewers;
+	public void setViewers(Set<User> users) {
+		this.users = users;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public weekDays getDay() {
+	public Date getDay() {
 		return day;
 	}
 
-	public void setDay(weekDays day) {
+	public void setDay(Date day) {
 		this.day = day;
 	}
+	public String getTime() {
+		return time;
+	}
 
-	public long getPrice() {
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public Long getPrice() {
 		return price;
 	}
 
-	public void setPrice(long price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 
@@ -94,18 +112,18 @@ public class Projection implements Serializable {
 		this.rooms = rooms;
 	}
 
-	public Projection(long id, weekDays day, long price, Movie movie, Set<Room> rooms, Cinema cinema,
-			Set<Viewer> viewers) {
+	public Projection(Long id, Date day,String time, Long price, Movie movie, Set<Room> rooms, Cinema cinema,
+			Set<User> users) {
 		super();
 		this.id = id;
 		this.day = day;
 		this.price = price;
 		this.movie = movie;
+		this.time=time;
 		this.rooms = rooms;
 		this.cinema = cinema;
-		this.viewers = viewers;
+		this.users = users;
 	}
 	public Projection() {}
 	
 }
-enum weekDays{MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY,SUNDAY};

@@ -13,12 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Movie implements Serializable {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 	
 	@Column(nullable=false)
 	private String name;
@@ -30,15 +33,16 @@ public class Movie implements Serializable {
 	private String genre;
 	
 	@Column(nullable=false)
-	private long duration;// u minutima
+	private Long duration;// u minutima
 	
 	@Column 
 	private double rating;
 	
-	@OneToMany(mappedBy="movie",fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
+	@JsonIgnore
+	@OneToMany(mappedBy="movie",fetch=FetchType.LAZY,orphanRemoval=true)
 	private Set<Watched_movie> watched_movies=new HashSet<>();
 	
-	@OneToMany(mappedBy="movie",fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy="movie",fetch=FetchType.EAGER,orphanRemoval=true)
 	private Set<Projection> projections=new HashSet<>();
 	
 	public Set<Watched_movie> getWatched_movies() {

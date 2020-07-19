@@ -13,15 +13,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import project.cinema.dto.CinemaDTO;
 
 
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Cinema implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 	
 	@Column(nullable=false)
 	private String name;
@@ -34,14 +37,14 @@ public class Cinema implements Serializable {
 	
 	@Column(nullable=false)
 	private String email;
-	
-	@OneToMany(mappedBy="cinema",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(mappedBy="cinema",fetch=FetchType.EAGER,orphanRemoval = true)
 	private Set<User> managers=new HashSet<>();
 	
-	@OneToMany(mappedBy="cinema",fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy="cinema",fetch=FetchType.EAGER,cascade=CascadeType.ALL,orphanRemoval=true)
 	private Set<Room> rooms=new HashSet<>();
 	
-	@OneToMany(mappedBy = "cinema", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "cinema", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Projection> schedule=new HashSet<>();
 	
 	public Set<Projection> getSchedule() {

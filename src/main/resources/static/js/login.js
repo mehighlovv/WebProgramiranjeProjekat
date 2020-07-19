@@ -48,7 +48,7 @@ function register() {
     let date=document.getElementById('date').value;
     
     if(password1!=password){
-    	alert("Password do not match!");
+    	alert("Passwords do not match!");
     	return;
     }
     else{
@@ -60,7 +60,7 @@ function register() {
         "password":password,
         "username":username,
         "date":date,
-        "role":1,
+        "role":0,
         "activity":false
     });
     console.log(formData);
@@ -88,4 +88,16 @@ function register() {
 function logOut() {
 	sessionStorage.clear();
 	window.location.replace("/");
+}
+function profile(){
+	var id=sessionStorage.getItem("id");
+	window.location.replace("/account/"+id);
+}
+function watched_movies(){
+    var id=sessionStorage.getItem("id");
+    window.location.replace("/account/"+id+"/watched_movies");
+}
+function reservations(){
+    var id=sessionStorage.getItem("id");
+    window.location.replace("/account/"+id+"/reservations");
 }

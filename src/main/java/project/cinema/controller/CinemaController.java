@@ -6,8 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -34,6 +38,13 @@ public class CinemaController {
 		if (cinema == null)
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		return new ResponseEntity<Cinema>(cinema, HttpStatus.OK);
+	}
+	@DeleteMapping("/cinemas/{id}")
+	public ResponseEntity<?> delete(@PathVariable(name="id") Long id){
+		if(cinemaService.deleteById(id))
+			return new ResponseEntity<>(HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 
 }

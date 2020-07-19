@@ -28,3 +28,20 @@ function addCinema() {
         }
     });
 }
+function deleteCinema(id) {
+
+    $.ajax({
+        url: '/cinemas/'+id,
+        type: 'delete',
+        success: function(){
+        	console.log("success");
+            window.location.replace("/cinemas");
+        },
+        error: function( jqXhr, textStatus, errorThrown ){
+            if (jqXhr.status == 409) {
+                alert("Something went wrong!");
+                return;
+                }
+        }
+    });
+}

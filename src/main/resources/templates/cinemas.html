@@ -34,7 +34,7 @@
                         <i class="fas fa-user-circle"></i>
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Profile</a>
+                         <a class="dropdown-item" onclick="profile()">Profile</a>
                         <a class="dropdown-item" href="#">Support</a>
                         <a class="dropdown-item" onclick="logOut()">Logout</a>
                       </div>
@@ -77,7 +77,7 @@
             <div class="row justify-content-center">
             <div class="col-auto">
                 <table id="Cinemas" class="table table-hover">
-                <thead>
+                <thead class="thead-light">
                     <tr>
                         <th>Name</th>
                         <th>Address</th>
@@ -92,14 +92,20 @@
                         <td th:text="${cinema.address}"></td>
                         <td th:text="${cinema.phone_number}"></td>
                         <td th:text="${cinema.email}"></td>
-                        <td></td>
+                        <td class="admin">
+                            <button type="button" id="delete" th:onclick="'deleteCinema('+${cinema.id}+')'" class="btn">
+                                <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" class="bi bi-x-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
+                                </svg>
+                            </button>
+                        </td>
                     </tr>
                     <tr class="admin">
                         <td><input id="name" type="text" placeholder="Name"/></td>
                         <td><input id="address" type="text" placeholder="Address"/></td>
                         <td><input id="phone" type="text" placeholder="Phone Number"/></td>
                         <td><input id="emailc" type="text" placeholder="E-mail"/></td>
-                        <td><button type="button" onclick="addCinema()" class="btn btn-primary">Add</button></td>
+                        <td><button type="button" onclick="addCinema()" class="btn btn-outline-secondary">Add</button></td>
                     </tr>
                 </tbody>
                 </table>
@@ -110,5 +116,6 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
 	</body>
 </html>

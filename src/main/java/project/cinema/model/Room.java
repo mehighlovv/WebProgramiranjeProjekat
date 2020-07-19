@@ -16,14 +16,17 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Room implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 	
 	@Column
-	private long capacity;
+	private Long capacity;
 	
 	@Column
 	private String mark;
@@ -35,29 +38,29 @@ public class Room implements Serializable {
 	public void setCinema(Cinema cinema) {
 		this.cinema = cinema;
 	}
-
-	@ManyToMany
+	@JsonIgnore
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "ROOM_PROJECTION",
     joinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "projection_id", referencedColumnName = "id"))
 	private Set<Projection> projections = new HashSet<>();
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Cinema cinema;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public long getCapacity() {
+	public Long getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(long capacity) {
+	public void setCapacity(Long capacity) {
 		this.capacity = capacity;
 	}
 
@@ -77,9 +80,8 @@ public class Room implements Serializable {
 		this.projections = projections;
 	}
 
-	public Room(long id, long capacity, String mark, Set<Projection> projections, Cinema cinema) {
+	public Room(Long capacity, String mark, Set<Projection> projections, Cinema cinema) {
 		super();
-		this.id = id;
 		this.capacity = capacity;
 		this.mark = mark;
 		this.projections = projections;
